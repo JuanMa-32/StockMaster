@@ -2,11 +2,15 @@ package com.stockmaster.msvccliente.controller;
 
 import com.stockmaster.msvccliente.entity.Cliente;
 import com.stockmaster.msvccliente.service.ClienteService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -14,6 +18,13 @@ import java.util.Optional;
 public class ClienteControler {
     @Autowired
     private ClienteService clienteService;
+    private ResponseEntity<?>validar(BindingResult result){
+        Map<String,Object> errores = new HashMap<>();
+        result.getFieldErrors().forEach(e->{
+            errores.put(e.getField(), "El campo:  "+ e.getField()+ " "+ e.getDefaultMessage() );
+        });
+        return new ResponseEntity<>(errores,HttpStatus.NOT_FOUND);
+    }
 
     @GetMapping
     public ResponseEntity<?> findAll(){
@@ -28,17 +39,31 @@ public class ClienteControler {
         return ResponseEntity.notFound().build();
     }
     @PostMapping
-    public ResponseEntity<?>save (@RequestBody Cliente cliente){
+    public ResponseEntity<?>save (@Valid @RequestBody Cliente cliente,BindingResult result){
+        if (result.hasErrors()){
+            return validar(result);
+        }
         return ResponseEntity.ok().body(clienteService.save(cliente));
 
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?>update(@PathVariable Long id, @RequestBody Cliente cliente){
+    public ResponseEntity<?>update(@Valid @PathVariable Long id, @RequestBody Cliente cliente,BindingResult result){
+        if (result.hasErrors()){
+            return validar(result);
+        }
         Optional<Cliente>clienteOptional = clienteService.findById(id);
         Cliente clienteDb = null;
         if (clienteOptional.isPresent()){
             clienteDb = clienteOptional.get();
             clienteDb.setNombre(cliente.getNombre());
+            clienteDb.setApellido(clienteDb.getApellido());
+            clienteDb.setEmail(clienteDb.getEmail());
+            clienteDb.setDireccion(clienteDb.getDireccion());
+            clienteDb.setObservaciones(clienteDb.getObservaciones());
+            clienteDb.setTelefono(clienteDb.getTelefono());
+            clienteDb.setComplemento(clienteDb.getComplemento());
+            clienteDb.setPassword(clienteDb.getPassword());
+
             return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(clienteDb));
 
         }

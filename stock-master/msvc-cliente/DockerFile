@@ -1,0 +1,6 @@
+FROM openjdk:19-alpine
+VOLUME /tmp
+EXPOSE 8002
+#RUN ./mvnw clean package -DskipTests
+ADD ./target/msvc-cliente-0.0.1-SNAPSHOT.jar msvc-cliente.jar
+ENTRYPOINT ["java", "-jar", "/msvc-cliente.jar"]
