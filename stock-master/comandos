@@ -1,0 +1,19 @@
+docker run -p 8801:8801 --name msvc-usuario -d --rm --network cmr msvc-usuario
+docker run -p 8761:8761 --name msvc-eureka -d --rm --network cmr  msvc-eureka
+docker run -d --name msvc-proceso  --network cmr -p 8003:8003 -e SPRING_DATA_MONGODB_URI=mongodb://root:root@msvc-mongo:27018/db_proceso msvc-proceso
+
+docker run -p 8802:8802 --name msvc-cliente -d --rm --network cmr msvc-cliente
+docker build -t msvc-usuario . -f .\msvc-usuario\DockerFile
+docker build -t msvc-eureka . -f .\eureka\DockerFile
+docker run -d -p 3307:3306 --name msvc-mysql --network cmr -e MYSQL_DATABASE= "db_usuario db_cliente" -e MYSQL_ROOT_PASSWORD=root mysql
+docker run -d -p 3307:3306 --name msvc-mysql --network cmr -e MYSQL_ROOT_PASSWORD=root -v C:/init.sql:/docker-entrypoint-initdb.d/init.sql mysql
+docker run -d -p 27017:27017 --name msvc-mongo --network cmr -e MONGO_INITDB_DATABASE=db_proceso -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=root mongo
+docker pull mysql:8
+mvn clean package -DskipTests
+
+para mongo
+docker run -d --name msvc-mongo --network cmr -p 27018:27017   -e MONGO_INITDB_ROOT_USERNAME=admin   -e MONGO_INITDB_ROOT_PASSWORD=root  -e MONGO_INITDB_DATABASE=db_proceso  mongo:latest
+ docker run -d --name msvc-proceso  --network cmr -p 8003:8003  msvc-proceso
+
+
+
