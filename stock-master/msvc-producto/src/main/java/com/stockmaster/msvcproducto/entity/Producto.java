@@ -2,9 +2,11 @@ package com.stockmaster.msvcproducto.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
 @Entity
 @Table(name = "productos")
+@Data
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
