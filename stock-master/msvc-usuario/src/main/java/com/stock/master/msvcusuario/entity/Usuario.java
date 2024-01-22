@@ -16,13 +16,13 @@ public class Usuario {
 
     @NotNull(message = "Completar Nombre")
     private String nombre;
-    @NotNull(message = "Completar apellido")
-    private String apellido;
 
     @Email
     private String email;
     @NotNull
     private String password;
+    private Integer ventas;
+    
 
 
 }

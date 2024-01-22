@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class UsuarioController {
 
     @Autowired
