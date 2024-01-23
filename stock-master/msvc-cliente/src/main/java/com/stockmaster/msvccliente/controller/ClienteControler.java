@@ -48,6 +48,8 @@ public class ClienteControler {
     }
     @PutMapping("/{id}")
     public ResponseEntity<?>update(@Valid @PathVariable Long id, @RequestBody Cliente cliente,BindingResult result){
+        System.out.println(cliente);
+        System.out.println(id);
         if (result.hasErrors()){
             return validar(result);
         }
