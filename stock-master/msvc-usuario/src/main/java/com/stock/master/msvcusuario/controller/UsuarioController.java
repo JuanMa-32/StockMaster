@@ -3,6 +3,7 @@ package com.stock.master.msvcusuario.controller;
 import com.stock.master.msvcusuario.entity.Usuario;
 import com.stock.master.msvcusuario.service.UsuarioServiceImpl;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class UsuarioController {
 
     @Autowired
@@ -36,6 +38,18 @@ public class UsuarioController {
             return validation(result);
         }
         return ResponseEntity.status(201).body(service.save(usuario));
+    }
+
+    @PutMapping("/agregar-facturacion/{id}")
+    public ResponseEntity<?> nuevaVenta(@PathVariable Long id,@RequestParam Double facturacion){
+        Optional<Usuario> o = service.findById(id);
+        if(o.isPresent()){
+            Usuario us = o.get();
+            us.setVentas(1);
+            us.setFacturacion(facturacion);
+            return ResponseEntity.ok(service.save(us));
+        }
+        return ResponseEntity.notFound().build();
     }
 
 
