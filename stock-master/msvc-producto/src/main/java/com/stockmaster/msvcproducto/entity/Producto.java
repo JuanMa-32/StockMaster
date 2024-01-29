@@ -13,13 +13,16 @@ public class Producto {
     private Long id;
     @NotBlank
     private String nombre;
+    private String etiqueta;
     private Double precio;
     private Integer stockActual;
     private Integer stockMinino;
     private Double precioPromocion;
+    private String descripcion;
     private Double costo;
+    private String venederPor;
     @ManyToOne
-    private Categoria categotia;
+    private Categoria categoria;
 
 
 }

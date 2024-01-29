@@ -5,6 +5,7 @@ import com.stockmaster.msvcproducto.entity.Producto;
 import com.stockmaster.msvcproducto.service.CategoriaService;
 import com.stockmaster.msvcproducto.service.ProductoService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -17,7 +18,9 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 @RestController
 public class ProductoController {
+    @Autowired
     private ProductoService productoService;
+    @Autowired
     private CategoriaService categoriaService;
 
     /**

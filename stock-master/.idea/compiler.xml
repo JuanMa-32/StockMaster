@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="msvc-cliente" />
         <module name="msvc-producto" />
+        <module name="msvc-venta" />
         <module name="msvc-usuario" />
       </profile>
     </annotationProcessing>
@@ -18,6 +19,7 @@
       <module name="msvc-cliente" options="-parameters" />
       <module name="msvc-producto" options="-parameters" />
       <module name="msvc-usuario" options="-parameters" />
+      <module name="msvc-venta" options="-parameters" />
       <module name="stock-master" options="" />
     </option>
   </component>
