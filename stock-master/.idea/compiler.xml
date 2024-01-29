@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="msvc-cliente" />
         <module name="msvc-producto" />
+        <module name="msvc-negocio" />
         <module name="msvc-venta" />
         <module name="msvc-usuario" />
       </profile>
@@ -17,6 +18,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="msvc-cliente" options="-parameters" />
+      <module name="msvc-negocio" options="-parameters" />
       <module name="msvc-producto" options="-parameters" />
       <module name="msvc-usuario" options="-parameters" />
       <module name="msvc-venta" options="-parameters" />
