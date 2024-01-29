@@ -22,7 +22,8 @@ public class Usuario {
     @NotNull
     private String password;
     private Integer ventas;
-    
+    private Double facturacion;
+
 
 
 }
