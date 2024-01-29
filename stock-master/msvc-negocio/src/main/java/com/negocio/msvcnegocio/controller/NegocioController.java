@@ -38,7 +38,7 @@ public class NegocioController {
         return  ResponseEntity.notFound().build();
     }
     @PostMapping
-    public ResponseEntity<?>save(@Valid Negocio negocio,BindingResult result){
+    public ResponseEntity<?>save(@Valid @RequestBody Negocio negocio,BindingResult result){
         if ((result.hasErrors())){
             return validar(result);
         }

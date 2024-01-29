@@ -12,7 +12,7 @@ public class Negocio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String Nombre;
+    private String nombre;
     private Long idUsuario;
     private List<Long>idProductos;
     public void addProducto(Long idProducto){
