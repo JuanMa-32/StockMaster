@@ -76,6 +76,18 @@ public class ClienteControler {
         clienteService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/verificarCliente/{id}")
+    public ResponseEntity<?>verificarCliente(@PathVariable Long id){
+        Boolean verificar;
+        Optional<Cliente>clienteOptional = clienteService.findById(id);
+        if (clienteOptional.isPresent()){
+            verificar=true;
+            return ResponseEntity.ok().body(verificar);
+        }
+        verificar = false;
+        return ResponseEntity.ok().body(verificar);
+    }
+
 
 
 }

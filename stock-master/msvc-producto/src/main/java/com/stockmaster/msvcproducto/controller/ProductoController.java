@@ -147,4 +147,14 @@ public class ProductoController {
         }
         return ResponseEntity.notFound().build();
     }
+    @GetMapping("/verificarProducto/{id}")
+    public ResponseEntity<?>verificarProducto(@PathVariable Long id){
+        Optional<Producto>productoOptional = productoService.findById(id);
+        Boolean verificar=false;
+        if (productoOptional.isPresent()){
+            verificar = true;
+            return ResponseEntity.ok(verificar);
+        }
+        return ResponseEntity.ok(verificar);
+    }
 }
