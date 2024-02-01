@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.util.Date;
+import java.util.List;
 
 @Document(collection = "ventas")//marcar como una entity que se almacenara en mongo
 @Data
@@ -33,7 +34,9 @@ public class Venta {
     private Usuario usuario;
     @Transient
     Cliente cliente;
+    private Integer items;
 
+    private List<ProductoVenta> productos;
 
 
 
