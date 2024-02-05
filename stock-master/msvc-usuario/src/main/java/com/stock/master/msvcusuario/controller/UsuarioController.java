@@ -45,8 +45,14 @@ public class UsuarioController {
         Optional<Usuario> o = service.findById(id);
         if(o.isPresent()){
             Usuario us = o.get();
-            us.setVentas(1);
-            us.setFacturacion(facturacion);
+            if(us.getVentas()==null){
+                us.setVentas(1);
+                us.setFacturacion(facturacion);
+            }else{
+                us.setVentas(us.getVentas()+1);
+                us.setFacturacion(us.getFacturacion()+facturacion);
+            }
+
             return ResponseEntity.ok(service.save(us));
         }
         return ResponseEntity.notFound().build();

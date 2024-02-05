@@ -31,4 +31,10 @@ public class ProductoServiceImp implements ProductoService {
     public void deleteById(Long id) {
     productoRepositorio.deleteById(id);
     }
+
+    @Override
+    public List<Producto> findAllById(List<Long> ids) {
+
+        return productoRepositorio.findAllById(ids);
+    }
 }
