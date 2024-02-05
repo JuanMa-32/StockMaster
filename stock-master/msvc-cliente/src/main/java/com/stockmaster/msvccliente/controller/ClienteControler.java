@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("")
 public class ClienteControler {
@@ -47,7 +47,8 @@ public class ClienteControler {
 
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?>update(@Valid @PathVariable Long id, @RequestBody Cliente cliente,BindingResult result){
+    public ResponseEntity<?>update(@Valid @RequestBody Cliente cliente,BindingResult result, @PathVariable Long id){
+
         if (result.hasErrors()){
             return validar(result);
         }
@@ -75,6 +76,18 @@ public class ClienteControler {
         clienteService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/verificarCliente/{id}")
+    public ResponseEntity<?>verificarCliente(@PathVariable Long id){
+        Boolean verificar;
+        Optional<Cliente>clienteOptional = clienteService.findById(id);
+        if (clienteOptional.isPresent()){
+            verificar=true;
+            return ResponseEntity.ok().body(verificar);
+        }
+        verificar = false;
+        return ResponseEntity.ok().body(verificar);
+    }
+
 
 
 }
