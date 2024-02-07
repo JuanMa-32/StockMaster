@@ -2,6 +2,7 @@ package com.stockmaster.msvcproducto.controller;
 
 import com.stockmaster.msvcproducto.entity.Categoria;
 import com.stockmaster.msvcproducto.entity.Producto;
+import com.stockmaster.msvcproducto.entity.ProductoVenta;
 import com.stockmaster.msvcproducto.service.CategoriaService;
 import com.stockmaster.msvcproducto.service.ProductoService;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -156,5 +158,17 @@ public class ProductoController {
             return ResponseEntity.ok(verificar);
         }
         return ResponseEntity.ok(verificar);
+    }
+    @PutMapping("/restarStock")
+    public void restarStock (@RequestBody List<ProductoVenta>listaProductoVenta){
+        List<Producto>todos = productoService.findAll();
+        listaProductoVenta.forEach(c->{
+            todos.forEach(t->{
+                if(c.getIdProducto()==t.getId()){
+                    t.setStockActual(t.getStockActual()-c.getItemsProducto());
+                    productoService.save(t);
+                }
+            });
+        });
     }
 }
