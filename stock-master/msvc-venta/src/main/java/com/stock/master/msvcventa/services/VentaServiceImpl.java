@@ -1,6 +1,7 @@
 package com.stock.master.msvcventa.services;
 
 import com.stock.master.msvcventa.clients.ClienteClientRest;
+import com.stock.master.msvcventa.clients.ProductoClientRest;
 import com.stock.master.msvcventa.clients.UsuarioClientRest;
 import com.stock.master.msvcventa.models.entity.Venta;
 import com.stock.master.msvcventa.repositories.VentaRepository;
@@ -12,6 +13,8 @@ import java.util.Optional;
 @Service
 public class VentaServiceImpl implements VentaService{
     @Autowired
+    private ProductoClientRest productoClientRest;
+    @Autowired
     private VentaRepository repository;
     @Autowired
     private UsuarioClientRest usuarioClient;
@@ -21,6 +24,7 @@ public class VentaServiceImpl implements VentaService{
     @Override
     public Venta save(Venta venta) {
         usuarioClient.nuevaVenta(venta.getIdUsuario(), venta.getTotal());
+        productoClientRest.restarStock(venta.getProductos());
         return repository.save(venta);
     }
 
