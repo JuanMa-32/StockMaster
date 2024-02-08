@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 @Service
 public class VentaServiceImpl implements VentaService{
     @Autowired
+    private ProductoClientRest productoClientRest;
+    @Autowired
     private VentaRepository repository;
     @Autowired
     private UsuarioClientRest usuarioClient;
@@ -27,6 +29,7 @@ public class VentaServiceImpl implements VentaService{
     @Override
     public Venta save(Venta venta) {
         usuarioClient.nuevaVenta(venta.getIdUsuario(), venta.getTotal());
+        productoClientRest.restarStock(venta.getProductos());
         return repository.save(venta);
     }
 
