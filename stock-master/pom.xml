@@ -20,6 +20,7 @@
         <module>msvc-producto</module>
         <module>msvc-venta</module>
         <module>msvc-negocio</module>
+
     </modules>
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
