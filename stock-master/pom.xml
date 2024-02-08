@@ -20,6 +20,8 @@
         <module>msvc-producto</module>
         <module>msvc-venta</module>
         <module>msvc-negocio</module>
+        <module>msvc-eureka</module>
+        <module>msvc-gateway</module>
 
     </modules>
     <properties>
