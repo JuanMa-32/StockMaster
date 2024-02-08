@@ -11,4 +11,5 @@ public interface ProductoService {
     public Optional<Producto>findById(Long id);
     public Producto save(Producto producto);
     public void deleteById(Long id);
+    public List<Producto> findAllById(List<Long> ids);
 }

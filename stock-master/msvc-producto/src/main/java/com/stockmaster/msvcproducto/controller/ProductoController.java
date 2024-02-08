@@ -61,6 +61,8 @@ public class ProductoController {
         return ResponseEntity.notFound().build();
     }
 
+
+
     /**
      * metodo para guardar categoria
      * @param categoria

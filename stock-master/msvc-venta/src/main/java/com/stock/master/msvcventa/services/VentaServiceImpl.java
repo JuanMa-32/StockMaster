@@ -8,8 +8,11 @@ import com.stock.master.msvcventa.repositories.VentaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class VentaServiceImpl implements VentaService{
     @Autowired
@@ -20,6 +23,8 @@ public class VentaServiceImpl implements VentaService{
     private UsuarioClientRest usuarioClient;
     @Autowired
     private ClienteClientRest clienteClient;
+    @Autowired
+    private ProductoClientRest productoClient;
 
     @Override
     public Venta save(Venta venta) {

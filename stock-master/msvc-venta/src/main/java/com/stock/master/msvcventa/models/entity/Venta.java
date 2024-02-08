@@ -23,6 +23,7 @@ public class Venta {
     private Date fecha;
     private Double subTotal;
     private Double total;
+    private Double descuento;
     private String metodoPago;
     private String observacion;
 
