@@ -1,5 +1,6 @@
 package com.stock.master.msvcusuario.entity;
 
+import com.stock.master.msvcusuario.roles.Rol;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -16,13 +17,18 @@ public class Usuario {
 
     @NotNull(message = "Completar Nombre")
     private String nombre;
+    private Long idNegocio;
 
     @Email
+    @Column(unique = true)
     private String email;
     @NotNull
     private String password;
     private Integer ventas;
     private Double facturacion;
+
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
 
 
 

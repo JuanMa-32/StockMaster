@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  mysqlproducto:
+    container_name: mysqlproducto
+    image: mysql:8
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: msvc_producto
+    volumes:
+      - data-mysql:/var/lib/mysql
+    restart: always
+    networks:
+      - stock
+
+  msvc-producto:
+    container_name: msvc-producto
+    image: juanaguero32/productos
+    ports:
+      - "8003:8003"
+    environment:
+      PORT: 8003
+      DB_HOST: mysqlproducto:3306
+      DB_DATABASE: msvc_producto
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      NEGOCIO_URL: ec2-54-167-29-213.compute-1.amazonaws.com:8005
+    networks:
+      - stock
+    depends_on:
+        - mysqlproducto
+    restart: always
+
+volumes:
+  data-mysql:
+    name: data-mysql
+
+networks:
+  stock:

@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 @CrossOrigin(origins = "*")
@@ -27,8 +28,8 @@ public class ClienteControler {
     }
 
     @GetMapping
-    public ResponseEntity<?> findAll(){
-        return ResponseEntity.ok().body(clienteService.findAll());
+    public ResponseEntity<?> findAll(@RequestParam List<Long> ids){
+        return ResponseEntity.ok().body(clienteService.findAll(ids));
     }
     @GetMapping("/{id}")
     public ResponseEntity<?>findById(@PathVariable Long id){
@@ -38,12 +39,12 @@ public class ClienteControler {
         }
         return ResponseEntity.notFound().build();
     }
-    @PostMapping
-    public ResponseEntity<?>save (@Valid @RequestBody Cliente cliente,BindingResult result){
+    @PostMapping("/{idNegocio}")
+    public ResponseEntity<?>save (@Valid @RequestBody Cliente cliente,BindingResult result,@PathVariable Long idNegocio){
         if (result.hasErrors()){
             return validar(result);
         }
-        return ResponseEntity.ok().body(clienteService.save(cliente));
+        return ResponseEntity.ok().body(clienteService.save(cliente,idNegocio));
 
     }
     @PutMapping("/{id}")
@@ -64,16 +65,16 @@ public class ClienteControler {
             clienteDb.setTelefono(clienteDb.getTelefono());
             clienteDb.setComplemento(clienteDb.getComplemento());
             clienteDb.setPassword(clienteDb.getPassword());
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(clienteDb));
+            clienteService.actualizarCliente(clienteDb);
+            return ResponseEntity.status(204).build();
 
         }
         return ResponseEntity.notFound().build();
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?>deleteById(@PathVariable Long id){
+    @DeleteMapping("/{id}/{idNegocio}")
+    public ResponseEntity<?>deleteById(@PathVariable Long id,@PathVariable Long idNegocio){
 
-        clienteService.deleteById(id);
+        clienteService.deleteById(id,idNegocio);
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/verificarCliente/{id}")

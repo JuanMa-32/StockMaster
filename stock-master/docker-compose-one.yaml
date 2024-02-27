@@ -1,0 +1,158 @@
+version: "3.9"
+services:
+  mysql8:
+    container_name: mysql8
+    image: mysql:8
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: msvc_usuarios
+    volumes:
+      - data-mysql:/var/lib/mysql
+    networks:
+      - stock
+  msvc-usuario:
+    container_name: msvc-usuario
+    image: juanaguero32/usuarios
+    ports:
+      - "8001:8001"
+    environment:
+      PORT: 8001
+      DB_HOST: mysql8:3036
+      DB_DATABASE: msvc_usuario
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      NEGOCIO_URL: msvc-negocio:8005
+    networks:
+      - stock
+    depends_on:
+      - mysql8
+    restart: always
+  mysqlcliente:
+      container_name: mysqlcliente
+      image: mysql:8
+      ports:
+        - "3308:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: msvc_cliente
+      volumes:
+        - data-mysql:/var/lib/mysql
+      networks:
+        - stock
+      restart: always
+  msvc-cliente:
+      container_name: msvc-cliente
+      image: juanaguero32/clientes
+      ports:
+        - "8002:8002"
+      environment:
+        PORT: 8002
+        DATABASE_HOST: mysqlcliente:3306
+        DB_DATABASE: msvc_cliente
+        DB_PASSWORD: root
+        DB_USERNAME: root
+        NEGOCIO_URL: msvc-negocio:8005
+      networks:
+        - stock
+      depends_on:
+        - mysqlcliente
+      restart: always
+  mysqlproducto:
+    container_name: mysqlproducto
+    image: mysql:8
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: msvc_producto
+    volumes:
+      - data-mysql:/var/lib/mysql
+    restart: always
+    networks:
+      - stock
+
+  msvc-producto:
+    container_name: msvc-producto
+    image: juanaguero32/productos
+    ports:
+      - "8003:8003"
+    environment:
+      PORT: 8003
+      DB_HOST: mysqlproducto:3306
+      DB_DATABASE: msvc_producto
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      NEGOCIO_URL: msvc-producto:8005
+    networks:
+      - stock
+    depends_on:
+      - mysqlproducto
+    restart: always
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - stock
+    restart: always
+  msvc-venta:
+    container_name: msvc-venta
+    image: juanaguero32/ventas
+    ports:
+      - "8004:8004"
+    environment:
+      PORT: 8004
+      NEGOCIO_URL: msvc-negocio:8005
+      CLIENTE_URL: msvc-cliente:8002
+      PRODUCTO_URL: msvc-producto:8003
+      USUARIO_URL: msvc-usuario:8001
+    networks:
+      - stock
+    restart: always
+    depends_on:
+      - mongodb
+  mysqlnegocio:
+    container_name: mysqlnegocio
+    image: mysql:8
+    ports:
+      - "3310:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: msvc_negocio
+    volumes:
+      - data-mysql:/var/lib/mysql
+    networks:
+      - stock
+    restart: always
+  msvc-negocio:
+    container_name: msvc-negocio
+    image: juanaguero32/negocios
+    ports:
+      - "8005:8005"
+    environment:
+      PORT: 8005
+      DATABASE_HOST: mysqlnegocio:3306
+      DB_DATABASE: msvc_negocio
+      DB_PASSWORD: root
+      DB_USERNAME: root
+      CLIENTE_URL: msvc-cliente:8002
+      PRODUCTO_URL: msvc-producto:8003
+      USUARIO_URL: msvc-usuario:8001
+      VENTA_URL: msvc-venta:8004
+    networks:
+      - stock
+    restart: always
+    depends_on:
+      - mysqlnegocio
+volumes:
+  mongodb_data:
+  data-mysql:
+    name: data-mysql
+
+networks:
+  stock:

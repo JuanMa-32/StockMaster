@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - stock
+    restart: always
+  msvc-venta:
+    container_name: msvc-venta
+    image: juanaguero32/ventas
+    ports:
+      - "8004:8004"
+    environment:
+      PORT: 8004
+      NEGOCIO_URL: ec2-54-167-29-213.compute-1.amazonaws.com:8005
+      CLIENTE_URL: ec2-54-221-174-232.compute-1.amazonaws.com:8002
+      PRODUCTO_URL: ec2-54-89-163-172.compute-1.amazonaws.com:8003
+      USUARIO_URL: ec2-3-87-4-174.compute-1.amazonaws.com:8001
+    networks:
+      - stock
+    restart: always
+    depends_on:
+      - mongodb
+
+volumes:
+  mongodb_data:
+
+networks:
+  stock:
+
+
