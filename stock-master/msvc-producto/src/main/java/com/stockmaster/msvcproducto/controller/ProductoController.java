@@ -1,8 +1,10 @@
 package com.stockmaster.msvcproducto.controller;
 
+
 import com.stockmaster.msvcproducto.models.ProductoVenta;
 import com.stockmaster.msvcproducto.models.entity.Categoria;
 import com.stockmaster.msvcproducto.models.entity.Producto;
+
 import com.stockmaster.msvcproducto.service.CategoriaService;
 import com.stockmaster.msvcproducto.service.ProductoService;
 import jakarta.validation.Valid;
@@ -183,6 +185,7 @@ public class ProductoController {
         return ResponseEntity.ok(verificar);
     }
 
+
     @PutMapping("/restarStock")
     public void restarStock(@RequestBody List<ProductoVenta> listaProductoVenta) {
         List<Producto> todos = productoService.findAll();
@@ -191,6 +194,7 @@ public class ProductoController {
                 if (c.getIdProducto() == t.getId() && t.getStockActual() != null) {
                     t.setStockActual(t.getStockActual() - c.getItemsProducto());
                     productoService.actualizarProducto(t);
+
                 }
             });
         });

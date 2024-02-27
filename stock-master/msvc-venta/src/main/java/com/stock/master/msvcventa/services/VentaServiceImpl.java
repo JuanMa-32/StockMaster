@@ -15,6 +15,8 @@ import java.util.Optional;
 @Service
 public class VentaServiceImpl implements VentaService{
     @Autowired
+    private ProductoClientRest productoClientRest;
+    @Autowired
     private VentaRepository repository;
     @Autowired
     private UsuarioClientRest usuarioClient;
@@ -30,8 +32,10 @@ public class VentaServiceImpl implements VentaService{
         Venta ventaDb = repository.save(venta);
         negocioClientRest.agregarVenta(ventaDb.getId(),idNegocio);
         usuarioClient.nuevaVenta(venta.getIdUsuario(), venta.getTotal());
+
         productoClient.restarStock(venta.getProductos());
         return ventaDb;
+
     }
 
     @Override
