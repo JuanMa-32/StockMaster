@@ -1,16 +1,21 @@
 package com.negocio.msvcnegocio.clients;
 
 
-import com.negocio.msvcnegocio.entity.Usuario;
+import com.negocio.msvcnegocio.models.Usuario;
+import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
-@FeignClient(name = "msvc-usuario", url = "localhost:8001")
+@FeignClient(name = "msvc-usuario", url = "${msvc.usuario.url}")
 public interface UsuarioClientRest {
-    @GetMapping("/{id}")
-    Usuario detalle(@PathVariable Long id);
-
+    @GetMapping
+    List<Usuario> findAll(@RequestParam List<Long> ids);
+    @PostMapping("/{idNegocio}")
+    Usuario guardarUsuario(@RequestBody Usuario usuario,@PathVariable Long idNegocio);
 
 }

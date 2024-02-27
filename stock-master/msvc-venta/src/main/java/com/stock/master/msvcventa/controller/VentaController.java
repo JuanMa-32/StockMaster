@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,8 +18,8 @@ public class VentaController {
     private VentaServiceImpl service;
 
     @GetMapping
-    public ResponseEntity<?> findAll(){
-        return ResponseEntity.ok(service.findAllUsuarioAndCliente());
+    public ResponseEntity<?> findAll(@RequestParam List<String> ids){
+        return ResponseEntity.ok(service.findAllUsuarioAndCliente(ids));
     }
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable String id){
@@ -29,10 +30,10 @@ public class VentaController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping
-    public ResponseEntity<?> save(@RequestBody Venta venta){
+    @PostMapping("/{idNegocio}")
+    public ResponseEntity<?> save(@RequestBody Venta venta,@PathVariable Long idNegocio){
         venta.setFecha(new Date());
-        return ResponseEntity.status(201).body(service.save(venta));
+        return ResponseEntity.status(201).body(service.save(venta,idNegocio));
     }
 
     @DeleteMapping("/{id}")
@@ -40,4 +41,5 @@ public class VentaController {
         service.eliminarVenta(id);
         return ResponseEntity.noContent().build();
     }
+
 }

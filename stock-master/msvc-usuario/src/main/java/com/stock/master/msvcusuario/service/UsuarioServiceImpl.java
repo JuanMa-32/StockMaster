@@ -1,5 +1,6 @@
 package com.stock.master.msvcusuario.service;
 
+import com.stock.master.msvcusuario.clients.NegocioClientRest;
 import com.stock.master.msvcusuario.entity.Usuario;
 import com.stock.master.msvcusuario.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,14 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private UsuarioRepository repository;
+    @Autowired
+    private NegocioClientRest negocioClientRest;
 
 
     @Override
     @Transactional(readOnly = true)
-    public List<Usuario> findAll() {
-        return repository.findAll();
+    public List<Usuario> findAllById(List<Long> ids) {
+        return repository.findAllById(ids);
     }
 
     @Override
@@ -30,7 +33,19 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public Usuario save(Usuario usuario) {
-        return repository.save(usuario);
+    public Usuario save(Usuario usuario,Long idNegocio) {
+        Usuario us = repository.save(usuario);
+        negocioClientRest.agregarUs(us.getId(),idNegocio);
+        return us;
+    }
+
+    @Override
+    public Optional<Usuario> findByEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
+    @Override
+    public void actualizarUsuario(Usuario usuario) {
+        Usuario us = repository.save(usuario);
     }
 }

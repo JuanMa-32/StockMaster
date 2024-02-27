@@ -1,6 +1,6 @@
 package com.stockmaster.msvcproducto.service;
 
-import com.stockmaster.msvcproducto.entity.Categoria;
+import com.stockmaster.msvcproducto.models.entity.Categoria;
 
 import java.util.List;
 import java.util.Optional;

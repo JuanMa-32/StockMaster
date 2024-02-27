@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  mysqlnegocio:
+    container_name: mysqlnegocio
+    image: mysql:8
+    ports:
+      - "3310:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: msvc_negocio
+    volumes:
+      - data-mysql:/var/lib/mysql
+    networks:
+      - stock
+    restart: always
+  msvc-negocio:
+    container_name: msvc-negocio
+    image: juanaguero32/negocios
+    ports:
+      - "8005:8005"
+    environment:
+      PORT: 8005
+      DATABASE_HOST: mysqlnegocio:3306
+      DB_DATABASE: msvc_negocio
+      DB_PASSWORD: root
+      DB_USERNAME: root
+      CLIENTE_URL: ec2-54-221-174-232.compute-1.amazonaws.com:8002
+      PRODUCTO_URL: ec2-54-89-163-172.compute-1.amazonaws.com:8003
+      USUARIO_URL: ec2-3-87-4-174.compute-1.amazonaws.com:8001
+      VENTA_URL: ec2-44-220-162-81.compute-1.amazonaws.com:8004
+    networks:
+      - stock
+    restart: always
+    depends_on:
+      - mysqlnegocio
+
+volumes:
+  data-mysql:
+    name: data-mysql
+
+networks:
+  stock:

@@ -1,4 +1,4 @@
-package com.stockmaster.msvcproducto.entity;
+package com.stockmaster.msvcproducto.models.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

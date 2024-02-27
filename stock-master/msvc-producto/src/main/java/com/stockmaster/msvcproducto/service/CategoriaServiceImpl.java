@@ -1,6 +1,6 @@
 package com.stockmaster.msvcproducto.service;
 
-import com.stockmaster.msvcproducto.entity.Categoria;
+import com.stockmaster.msvcproducto.models.entity.Categoria;
 import com.stockmaster.msvcproducto.repository.CategoriaRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

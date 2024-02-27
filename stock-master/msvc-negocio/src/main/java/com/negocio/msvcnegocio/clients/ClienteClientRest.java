@@ -1,13 +1,17 @@
 package com.negocio.msvcnegocio.clients;
 
-import com.negocio.msvcnegocio.entity.Producto;
 
+
+import com.negocio.msvcnegocio.models.Cliente;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "msvc-producto",url = "localhost:8004")
+import java.util.List;
+
+
+@FeignClient(name = "msvc-cliente",url = "${msvc.cliente.url}")
 public interface ClienteClientRest {
-    @GetMapping("/verificarProducto/{id}")
-    Producto verificarProducto(@PathVariable Long id);
+    @GetMapping
+    List<Cliente> findAll(@RequestParam List<Long> ids);
 }
